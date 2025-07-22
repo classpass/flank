@@ -25,7 +25,7 @@ runs:
   steps:
     - name: Download flankScripts
       run: |
-        curl -L https://github.com/Flank/flank/releases/download/flank-scripts-1.9.1/flank-scripts.jar --output flank-scripts.jar
+        curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -L https://github.com/Flank/flank/releases/download/flank-scripts-1.9.1/flank-scripts.jar --output flank-scripts.jar  
         echo 'java -jar ./flank-scripts.jar "$@"' > flankScripts
         chmod +x flankScripts
       shell: bash
