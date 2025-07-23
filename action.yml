@@ -13,6 +13,11 @@ inputs:
   flank_configuration_file:
     description: 'Flank configuration file'
     required: true
+  flank_download_header_bearer:
+    description: 'cUrl header for downloading flank. Provide this to ensure actions does not hit a rate limit.'
+    required: false
+    type: string
+    default: ""
 outputs:
   local_results_directory:
     description: "Path to local results directory"
@@ -25,7 +30,7 @@ runs:
   steps:
     - name: Download flankScripts
       run: |
-        curl -L https://github.com/Flank/flank/releases/download/flank-scripts-1.9.1/flank-scripts.jar --output flank-scripts.jar
+        curl -H "Authorization: Bearer ${{ inputs.flank_download_header_bearer }}" -L https://github.com/Flank/flank/releases/download/flank-scripts-1.9.1/flank-scripts.jar --output flank-scripts.jar  
         echo 'java -jar ./flank-scripts.jar "$@"' > flankScripts
         chmod +x flankScripts
       shell: bash
